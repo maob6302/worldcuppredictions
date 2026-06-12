@@ -30,9 +30,9 @@ for col in pred["Date"]:
 
 
 #stats
-goals_scored = lead.loc[0,"Goals Scored"]
-games_played = lead.loc[0,"Games Played"]
-games_remaining = lead.loc[0,"Games Remaining"]
+goals_scored = int(lead.loc[0,"Goals Scored"])
+games_played = int(lead.loc[0,"Games Played"])
+games_remaining = int(lead.loc[0,"Games Remaining"])
 print(goals_scored)
 print(games_played)
 print(games_remaining)
@@ -129,17 +129,17 @@ app.layout = html.Div([
 
 
         html.Div([
-            html.H3("Games Played:"),
+            html.H3(f"Games Played: {games_played}"),
             html.H2(id="kpi-games-played")
         ], className="kpi-card"),
 
         html.Div([
-            html.H3("Games Remaining:"),
+            html.H3(f"Games Remaining: {games_remaining}"),
             html.H2(id="games_remaining")
         ], className="kpi-card"),
 
         html.Div([
-            html.H3("Goals Scored:"),
+            html.H3(f"Goals Scored: {goals_scored}"),
             html.H2(id="kpi-games-remaining")
         ], className="kpi-card"),
     ], className="kpi-container"),
