@@ -4,26 +4,42 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
 from numpy.ma.extras import column_stack
+from datetime import datetime
 
 app = dash.Dash(__name__)
 
 
 # Load your data
-wc = pd.read_excel("WC - Rona.xlsx", sheet_name = "Leaderboard")
+lead = pd.read_excel("WC - Rona.xlsx", sheet_name = "Leaderboard")
 pred = pd.read_excel("WC - Rona.xlsx", sheet_name = "Sheet2")
 
 
+#Time Formatting
+time_formatted = []
+for col in pred["Time"]:
+    time_formatted.append(col.strftime("%H:%M"))
+
+print(time_formatted)
+
+#Date Formatting
+date_formatted = []
+for col in pred["Date"]:
+    date_formatted.append(col.strftime("%d/%m/%Y"))
+
+
+
+
 #stats
-goals_scored = wc.loc[0,"Goals Scored"]
-games_played = wc.loc[0,"Games Played"]
-games_remaining = wc.loc[0,"Games Remaining"]
+goals_scored = lead.loc[0,"Goals Scored"]
+games_played = lead.loc[0,"Games Played"]
+games_remaining = lead.loc[0,"Games Remaining"]
 print(goals_scored)
 print(games_played)
 print(games_remaining)
 
 #leaderboard
 
-leaderboard_df = wc[["Rank","Name","Points"]]
+leaderboard_df = lead[["Rank","Name","Points"]]
 leaderboard_df["Rank"] = leaderboard_df["Points"].rank(
     method="min", ascending=False
 ).astype(int)
@@ -52,9 +68,17 @@ def load_leaderboard(_):
     return data, columns
 
 
+
 #predictions
-predictions_df = pred[["Date", "Group", "Home", "Away", "Matthew O'Brien", "Aaron Twiss", "Arion Aliu", "Rayan Zaibag", "Jorge Lopez"]]
+pred["Time"] = time_formatted
+pred["Date"] = date_formatted
+predictions_df = pred[["Date", "Time", "Group", "Home", "Away", "Matthew O'Brien", "Aaron Twiss", "Arion Aliu", "Rayan Zaibag", "Jorge Lopez"]]
 list_length = len(predictions_df)
+
+
+
+
+
 
 @app.callback(
     Output("prediction-table", "data"),
@@ -65,6 +89,18 @@ list_length = len(predictions_df)
 def load_prediction(_):
     df = predictions_df.copy()
     data = predictions_df.to_dict("records")
+    columns = [time_formatted]
+
+
+#date
+day = datetime.now()
+
+next_matches = []
+for idx, row in pred.iterrows():
+    if int(row["Date"][0:2]) == int(day.day):
+        next_matches.append(f"{row["Date"]} at {row["Time"]} | Group {row["Group"]} | {row["Home"]} vs {row["Away"]}")
+
+print(next_matches)
 
 
 # Layout
@@ -85,22 +121,25 @@ app.layout = html.Div([
     # KPI CARDS
     html.Div([
         html.Div([
-            html.H3("Games Played:"),
-            html.H2(id="games_played")
+            html.H3("Today's Fixtures:"),
+            dcc.Markdown("<br>".join(next_matches), dangerously_allow_html=True),
+            html.H2(id="next_match")
         ], className="kpi-card"),
 
+
+
         html.Div([
-            html.H3("Games remaining"),
+            html.H3("Games Played:"),
             html.H2(id="kpi-games-played")
         ], className="kpi-card"),
 
         html.Div([
-            html.H3("Goals Scored"),
-            html.H2(id="kpi-goals-scored")
+            html.H3("Games Remaining:"),
+            html.H2(id="games_remaining")
         ], className="kpi-card"),
 
         html.Div([
-            html.H3("Games Remaining"),
+            html.H3("Goals Scored:"),
             html.H2(id="kpi-games-remaining")
         ], className="kpi-card"),
     ], className="kpi-container"),
