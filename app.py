@@ -72,7 +72,7 @@ def load_leaderboard(_):
 #predictions
 pred["Time"] = time_formatted
 pred["Date"] = date_formatted
-predictions_df = pred[["Date", "Time", "Group", "Home", "Away", "Matthew O'Brien", "Aaron Twiss", "Arion Aliu", "Rayan Zaibag", "Jorge Lopez"]]
+predictions_df = pred[["Date", "Time", "Group", "Home", "Away", "Result","Matthew O'Brien", "Aaron Twiss", "Arion Aliu", "Rayan Zaibag", "Jorge Lopez"]]
 list_length = len(predictions_df)
 
 
@@ -181,7 +181,53 @@ app.layout = html.Div([
                     "color": "white",
                     "fontWeight": "bold",
                     "border": "1px solid black"},
-                data = predictions_df.to_dict("records")),
+                data = predictions_df.to_dict("records"),
+                style_data_conditional=[{
+            "if": {
+                "column_id": "Matthew O'Brien",
+                "filter_query": "{Matthew O'Brien} = {Result}"
+            },
+            "backgroundColor": "#d4edda",
+            "color": "black",
+            "fontWeight": "bold"
+        },
+        {
+            "if": {
+                "column_id": "Aaron Twiss",
+                "filter_query": "{Aaron Twiss} = {Result}"
+            },
+            "backgroundColor": "#d4edda",
+            "color": "black",
+            "fontWeight": "bold"
+        },
+        {
+            "if": {
+                "column_id": "Arion Aliu",
+                "filter_query": "{Arion Aliu} = {Result}"
+            },
+            "backgroundColor": "#d4edda",
+            "color": "black",
+            "fontWeight": "bold"
+        },
+        {
+            "if": {
+                "column_id": "Rayan Zaibag",
+                "filter_query": "{Rayan Zaibag} = {Result}"
+            },
+            "backgroundColor": "#d4edda",
+            "color": "black",
+            "fontWeight": "bold"
+        },
+        {
+            "if": {
+                "column_id": "Jorge Lopez",
+                "filter_query": "{Jorge Lopez} = {Result}"
+            },
+            "backgroundColor": "#d4edda",
+            "color": "black",
+            "fontWeight": "bold"
+        }])
+
 
         ], className="right-panel"),
 
