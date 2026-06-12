@@ -9,8 +9,8 @@ app = dash.Dash(__name__)
 
 
 # Load your data
-wc = pd.read_excel("C:/Users/maob6/OneDrive/Desktop/Personal/World Cup 26/WC - Rona.xlsx", sheet_name = "Leaderboard")
-pred = pd.read_excel("C:/Users/maob6/OneDrive/Desktop/Personal/World Cup 26/WC - Rona.xlsx", sheet_name = "Sheet2")
+wc = pd.read_excel("WC - Rona.xlsx", sheet_name = "Leaderboard")
+pred = pd.read_excel("WC - Rona.xlsx", sheet_name = "Sheet2")
 
 
 #stats
