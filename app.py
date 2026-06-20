@@ -10,8 +10,8 @@ app = dash.Dash(__name__)
 
 
 # Load your data
-lead = pd.read_excel("WC - Rona.xlsx", sheet_name = "Leaderboard")
-pred = pd.read_excel("WC - Rona.xlsx", sheet_name = "Sheet2")
+lead = pd.read_excel("WC - Rona Original.xlsx", sheet_name = "Leaderboard")
+pred = pd.read_excel("WC - Rona Original.xlsx", sheet_name = "Sheet2")
 
 
 #Time Formatting
