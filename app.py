@@ -15,11 +15,7 @@ pred = pd.read_excel("WC - Rona Original.xlsx", sheet_name = "Sheet2")
 
 
 #Time Formatting
-time_formatted = []
-for col in pred["Time"]:
-    time_formatted.append(col.strftime("%H:%M"))
 
-print(time_formatted)
 
 #Date Formatting
 date_formatted = []
@@ -70,9 +66,8 @@ def load_leaderboard(_):
 
 
 #predictions
-pred["Time"] = time_formatted
 pred["Date"] = date_formatted
-predictions_df = pred[["Date", "Time", "Group", "Home", "Away", "Result","Matthew O'Brien", "Aaron Twiss", "Arion Aliu", "Rayan Zaibag", "Jorge Lopez"]]
+predictions_df = pred[["Date", "Group", "Home", "Away", "Result","Matthew O'Brien", "Aaron Twiss", "Arion Aliu", "Rayan Zaibag", "Jorge Lopez"]]
 list_length = len(predictions_df)
 
 
@@ -98,7 +93,7 @@ day = datetime.now()
 next_matches = []
 for idx, row in pred.iterrows():
     if int(row["Date"][0:2]) == int(day.day):
-        next_matches.append(f"{row["Date"]} at {row["Time"]} | Group {row["Group"]} | {row["Home"]} vs {row["Away"]}")
+        next_matches.append(f"{row["Date"]} | Group {row["Group"]} | {row["Home"]} vs {row["Away"]}")
 
 print(next_matches)
 
